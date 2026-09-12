@@ -16,6 +16,10 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* 关键：作者样式中的 display:flex 会覆盖浏览器对 [hidden] 的默认 display:none，
+   显式保证 hidden 属性始终生效（否则 loading 遮罩会一直挡住画布和鼠标事件） */
+[hidden] { display: none !important; }
+
 html, body {
   height: 100%;
   width: 100%;
