@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCD 点云预览工具</title>
+  <link rel="stylesheet" href="/style.css" />
+  <!-- 用 importmap 直接引用 node_modules 中的 three，无需打包 -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/vendor/three/build/three.module.js",
+      "three/addons/": "/vendor/three/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <aside class="sidebar">
+    <header class="brand">
+      <h1>点云预览工具</h1>
+      <p class="subtitle">PCD · Three.js</p>
+    </header>
+
+    <!-- 文件管理 -->
+    <section class="panel">
+      <h2>文件管理</h2>
+
+      <label id="drop-zone" class="drop-zone">
+        <input type="file" id="file-input" accept=".pcd" hidden />
+        <span class="drop-icon">⬆</span>
+        <span class="drop-text">点击或拖拽上传 <b>.pcd</b> 文件</span>
+      </label>
+      <div id="upload-status" class="upload-status" hidden></div>
+
+      <div class="file-meta-head">
+        <span id="file-count">共 0 个文件</span>
+        <button id="refresh-btn" class="btn btn-mini" title="刷新列表">刷新</button>
+      </div>
+      <ul id="file-list" class="file-list"></ul>
+    </section>
+
+    <!-- 显示设置 -->
+    <section class="panel">
+      <h2>显示设置</h2>
+
+      <div class="control-row" id="size-row">
+        <label for="size-slider">点大小</label>
+        <span class="control-value"><span id="size-value">2.0</span> px</span>
+      </div>
+      <input type="range" id="size-slider" min="0.5" max="10" step="0.1" value="2" />
+
+      <div class="control-row">
+        <label>着色模式</label>
+      </div>
+      <div class="mode-switch" role="radiogroup">
+        <button type="button" class="mode-btn active" data-mode="solid" role="radio" aria-checked="true">单色</button>
+        <button type="button" class="mode-btn" data-mode="height" role="radio" aria-checked="false">高度渐变</button>
+      </div>
+
+      <div class="control-row" id="solid-color-row">
+        <label for="solid-color">点颜色</label>
+        <input type="color" id="solid-color" value="#57e3ff" />
+      </div>
+
+      <div id="legend-row" class="legend-row" hidden>
+        <div class="legend-gradient"></div>
+        <div class="legend-labels">
+          <span id="legend-max">高</span>
+          <span id="legend-min">低</span>
+        </div>
+      </div>
+
+      <button id="reset-view-btn" class="btn btn-full">重置视角</button>
+    </section>
+
+    <footer class="sidebar-footer">
+      左键旋转 · 右键平移 · 滚轮缩放
+    </footer>
+  </aside>
+
+  <main class="viewport">
+    <canvas id="canvas"></canvas>
+
+    <!-- 当前点云信息 -->
+    <div id="hud" class="hud" hidden>
+      <div id="hud-name" class="hud-name"></div>
+      <div id="hud-info" class="hud-info"></div>
+    </div>
+
+    <div id="loading" class="loading" hidden>
+      <div class="spinner"></div>
+      <span>正在加载点云…</span>
+    </div>
+
+    <div id="empty-tip" class="empty-tip">
+      <p>暂无点云</p>
+      <p class="empty-sub">从左侧列表选择一个 PCD 文件进行预览</p>
+    </div>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
